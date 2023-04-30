@@ -6,6 +6,7 @@ import { NotFound } from './pages/NotFound.jsx'
 import { HomePage } from './pages/HomePage.jsx'
 import { LoginPage } from './pages/LoginPage.jsx'
 import './App.css'
+import { ArrendamientoPage } from './pages/Arrendamiento/ArrendamientoPage.jsx'
 const userLogged = false;
 
 const routes = createBrowserRouter([
@@ -21,6 +22,10 @@ const routes = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage></LoginPage>
+      },
+      {
+        path: '/arrendamiento',
+        element: <ArrendamientoPage/>
       }
     ]
   }
