@@ -1,57 +1,83 @@
-<section className="h-100 gradient-form" style={"background-color: #eee"}>
-  <div></div>
-  <div className="container py-5 h-100">
-    <div className="row d-flex justify-content-center align-items-center h-100">
-      <div className="col-xl-10">
-        <div className="card rounded-3 text-black">
-          <div className="row g-0">
-            <div className="col-lg-6">
-              <div className="card-body p-md-5 mx-md-4">
+import React, { useState, useContext } from 'react'
+import { Navbar } from '../components/Navbar'
+import '../App.css'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../Index'
 
-                <div className="text-center">
-                  <h4 className="mt-1 mb-5 pb-1">We are The Lotus Team</h4>
+export const LoginPage = () => {
+  const { setLoggedIn, setDataUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    username: '',
+    password: ''
+  })
+
+  const handleChange = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const logIn = async (e) => {
+    try {
+      e.preventDefault()
+      const { data } = await axios.post('http://localhost:3200/user/login', form)
+      console.log(data.user)
+      if (data.message) {
+        alert(data.message)
+        localStorage.setItem('token', data.token)
+        setDataUser(data.userLogged)
+        setLoggedIn(true)
+        navigate('/dashboard')
+      }
+    } catch (err) {
+      console.log(err)
+      alert(err.response?.data.message)
+      throw new Error('Error in login')
+    }
+  }
+  return (
+    <>
+      <Navbar></Navbar>
+      <section className="vh-100 gradient-custom">
+        <div className="container py-5 h-100">
+          <div className="row d-flex justify-content-center align-items-center h-100">
+            <div className="col-12 col-md-8 col-lg-6 col-xl-5">
+              <div className="card bg-dark text-white" style={{ borderRadius: "1rem" }}>
+                <div className="card-body p-5 text-center">
+
+                  <div className="mb-md-5 mt-md-4 pb-5">
+
+                    <h2 className="fw-bold mb-2 text-uppercase">Login</h2>
+                    <p className="text-white-50 mb-5">Ingrese con su cuenta porfavor</p>
+
+                    <div className="form-outline form-white mb-4">
+                      <label className='form-label' htmlFor="">Username</label>
+                      <input onChange={handleChange} name='username' className='form-control' type="text" />
+                    </div>
+
+                    <div className="form-outline form-white mb-4">
+                      <label className='form-label' htmlFor="">Password</label>
+                      <input onChange={handleChange} name='password' className='form-control' type="password" />
+                    </div>
+
+
+                    <button onClick={(e) => logIn(e)} className='btn btn-outline-light btn-lg px-5'>
+                      LogIn
+                    </button>
+
+
+                  </div>
+
                 </div>
-
-                <form>
-                  <p>Please login to your account</p>
-
-                  <div className="form-outline mb-4">
-                    <input type="email" id="form2Example11" className="form-control"
-                      placeholder="Phone number or email address" />
-                    <label className="form-label" for="form2Example11">Username</label>
-                  </div>
-
-                  <div className="form-outline mb-4">
-                    <input type="password" id="form2Example22" className="form-control" />
-                    <label className="form-label" for="form2Example22">Password</label>
-                  </div>
-
-                  <div className="text-center pt-1 mb-5 pb-1">
-                    <button className="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">Log
-                      in</button>
-                    <a className="text-muted" href="#!">Forgot password?</a>
-                  </div>
-
-                  <div className="d-flex align-items-center justify-content-center pb-4">
-                    <p className="mb-0 me-2">Don't have an account?</p>
-                    <button type="button" className="btn btn-outline-danger">Create new</button>
-                  </div>
-
-                </form>
-
-              </div>
-            </div>
-            <div className="col-lg-6 d-flex align-items-center gradient-custom-2">
-              <div className="text-white px-3 py-4 p-md-5 mx-md-4">
-                <h4 className="mb-4">We are more than just a company</h4>
-                <p className="small mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-                  exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
+    </>
+  )
+}
