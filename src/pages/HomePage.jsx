@@ -5,6 +5,7 @@ import { Navbar } from '../components/Navbar'
 import { Carosel } from '../components/Carosel'
 import { Goals } from '../components/goals'
 import { Services } from '../components/Services'
+import { Customers } from '../components/Customers'
 
 
 export const HomePage = () => {
@@ -29,8 +30,11 @@ export const HomePage = () => {
         </section>
         <Goals />
         <Services/>
+        <br />
+        <Customers></Customers>
+        <Contact />
       </div>
-      <Contact />
+   
 
     </>
   )
