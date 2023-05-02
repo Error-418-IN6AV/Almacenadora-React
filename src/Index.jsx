@@ -4,6 +4,10 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import { NotFound } from './pages/NotFound';
 import { HomePage } from './pages/HomePage';
 import { LoginPage } from './pages/LoginPage';
+import { UserPage } from './pages/UserPage/UserPage';
+import { Table } from './pages/UserPage/Table';
+import { AddUse } from './pages/UserPage/AddUser';
+import { UpdateUser } from './pages/UserPage/UpdateUser'
 
 export const AuthContext = createContext();
 
@@ -32,6 +36,25 @@ export const Index = () => {
             {
               path: '/login',
               element: <LoginPage></LoginPage>
+            },
+            {
+              path: '/user',
+              element: <UserPage></UserPage>,
+              children: [
+                {
+                  path: '',
+                  exact: true,
+                  element: <Table></Table>
+                },
+                {
+                  path: 'add',
+                  element: <AddUse></AddUse>
+                },
+                {
+                  path: 'update/:id',
+                  element: <UpdateUser/>
+                }
+              ]
             },
           ]
         }
